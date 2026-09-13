@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Violation Map</title>
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <div>
+        <p class="eyebrow">Community validation pipeline</p>
+        <h1>Violation Map</h1>
+      </div>
+      <nav class="tabs" aria-label="Application sections">
+        <button class="tab active" data-panel="map-panel" type="button">Map</button>
+        <button class="tab" data-panel="admin-panel" type="button">Admin review</button>
+      </nav>
+    </header>
+
+    <main>
+      <section id="map-panel" class="panel active">
+        <div class="map-toolbar">
+          <div>
+            <p class="eyebrow">Map layer</p>
+            <div class="segmented-control" role="group" aria-label="Violation data view">
+              <button class="view-toggle active" data-calibrated="false" type="button">Original</button>
+              <button class="view-toggle" data-calibrated="true" type="button">User-Calibrated</button>
+            </div>
+          </div>
+          <p id="map-status" class="status-text">Loading map data...</p>
+        </div>
+
+        <div class="map-layout">
+          <div id="map" aria-label="Violation map"></div>
+          <aside class="submission-card">
+            <p class="eyebrow">New report</p>
+            <h2>Submit a violation</h2>
+            <p class="helper">Click the map to fill the coordinates, then attach a supporting image.</p>
+            <form id="submission-form">
+              <label>
+                Latitude
+                <input id="lat" name="lat" type="number" min="-90" max="90" step="any" required>
+              </label>
+              <label>
+                Longitude
+                <input id="lng" name="lng" type="number" min="-180" max="180" step="any" required>
+              </label>
+              <label>
+                Evidence image
+                <input name="image" type="file" accept="image/jpeg,image/png,image/webp" required>
+              </label>
+              <button class="primary-button" type="submit">Send for verification</button>
+            </form>
+            <p id="submission-status" class="status-text" aria-live="polite"></p>
+          </aside>
+        </div>
+      </section>
+
+      <section id="admin-panel" class="panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Admin workflow</p>
+            <h2>Pending reports</h2>
+          </div>
+          <button id="refresh-admin" class="secondary-button" type="button">Refresh queue</button>
+        </div>
+        <p id="admin-status" class="status-text" aria-live="polite"></p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Province</th>
+                <th>Coordinates</th>
+                <th>Image</th>
+                <th>Submitted</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="admin-rows"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>

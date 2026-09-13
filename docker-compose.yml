@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_DB: violation_map
+      POSTGRES_USER: violation_map
+      POSTGRES_PASSWORD: violation_map
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - ./data/provinces.json:/data/provinces.json:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U violation_map -d violation_map"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_data:
